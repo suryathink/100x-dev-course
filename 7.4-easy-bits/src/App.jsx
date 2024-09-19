@@ -1,39 +1,47 @@
-
-import './App.css'
-import { RecoilRoot, useRecoilValue, useSetRecoilState } from 'recoil'
-import { jobsAtom, messagingAtom, networkAtom, notificationsAtom, totalNotificationSelector } from './atoms'
-import { useMemo } from 'react'
-//RecoilRoot
+import "./App.css";
+import { useRecoilValue, useRecoilState } from "recoil";
+import {
+  networkAtom,
+  jobsAtom,
+  notificationAtom,
+  messagingAtom,
+} from "./atoms.js";
 
 function App() {
-  return <RecoilRoot>
-    <MainApp />
-  </RecoilRoot>
-}
-
-function MainApp() {
-  const networkNotificationCount = useRecoilValue(networkAtom)
+  // useRecoilValue -> is used to get the value of a atom
+  const networkNotificationCount = useRecoilValue(networkAtom);
   const jobsAtomCount = useRecoilValue(jobsAtom);
-  const notificationsAtomCount = useRecoilValue(notificationsAtom)
-  const messagingAtomCount = useRecoilValue(messagingAtom)
-  const totalNotificationCount = useRecoilValue(totalNotificationSelector);
 
-  // const totalNotificationCount = useMemo(() => {
-  //   return networkNotificationCount + jobsAtomCount + notificationsAtomCount + messagingAtomCount;
-  // }, [networkNotificationCount, jobsAtomCount, notificationsAtomCount, messagingAtomCount]) 
+  // useRecoilState -> is similar to useState, it returns current count, and method to set the count
+  const [messagingAtomCount, setMessagingAtomCount] =
+    useRecoilState(messagingAtom);
 
+  const notificationAtomCount = useRecoilValue(notificationAtom);
   return (
     <>
       <button>Home</button>
-      
-      <button>My network ({networkNotificationCount >= 100 ? "99+" : networkNotificationCount})</button>
-      <button>Jobs {jobsAtomCount}</button>
-      <button>Messaging ({messagingAtomCount})</button>
-      <button>Notifications ({notificationsAtomCount})</button>
-
-      <button>Me ({totalNotificationCount})</button>
+      <button>
+        {" "}
+        My network (
+        {networkNotificationCount >= 100 ? "99+" : networkNotificationCount})
+      </button>
+      <button>Jobs ({jobsAtomCount >= 100 ? "99+" : jobsAtomCount})</button>
+      <button>
+        Messaging({messagingAtomCount >= 100 ? "99+" : messagingAtomCount})
+      </button>
+      <button>
+        Notifications (
+        {notificationAtomCount >= 100 ? "99+" : notificationAtomCount})
+      </button>
+      <button
+        onClick={() => {
+          setMessagingAtomCount(messagingAtomCount + 1);
+        }}
+      >
+        Me
+      </button>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
