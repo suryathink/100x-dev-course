@@ -1,10 +1,12 @@
 import "./App.css";
+import { useMemo } from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
 import {
   networkAtom,
   jobsAtom,
   notificationAtom,
   messagingAtom,
+  totalNotificationSelector,
 } from "./atoms.js";
 
 function App() {
@@ -17,6 +19,39 @@ function App() {
     useRecoilState(messagingAtom);
 
   const notificationAtomCount = useRecoilValue(notificationAtom);
+  /*
+  const totalNotificationCount = useMemo(() => {
+    return (
+      Number(networkNotificationCount) +
+      Number(jobsAtomCount) +
+      Number(messagingAtomCount) +
+      Number(notificationAtomCount)
+    );
+  }, [
+    networkNotificationCount,
+    jobsAtomCount,
+    messagingAtomCount,
+    notificationAtomCount,
+  ]);
+
+  instead of this we will use selectors, below is the code
+
+ */
+
+  const totalNotificationCount = useRecoilValue(totalNotificationSelector);
+
+  // WHY USING SELECTOR APPROACH IS BETTER THAN USEMEMO?
+  /*
+   using selectors approach is better, because in the future, you have another variable 
+   (lets say totalNotification + totalUnrepliedMessage) that depends on the value of 
+   totalNotificationSelector and totalUnrepliedMessage count
+     
+
+   but if you use usememo, in that case you can't use usememo outside where the other new selector
+  ` totalNotificationSelector and totalUnrepliedMessage count` is going to get created in future
+
+  */
+
   return (
     <>
       <button>Home</button>
@@ -33,13 +68,7 @@ function App() {
         Notifications (
         {notificationAtomCount >= 100 ? "99+" : notificationAtomCount})
       </button>
-      <button
-        onClick={() => {
-          setMessagingAtomCount(messagingAtomCount + 1);
-        }}
-      >
-        Me
-      </button>
+      <button>Me( {totalNotificationCount})</button>
     </>
   );
 }
