@@ -19,7 +19,7 @@ env
 .idea
 .DS_Store
 *.suo
-*.ntvs*
+*.ntvs*rrr
 *.njsproj
 *.sln
 *.sw?
