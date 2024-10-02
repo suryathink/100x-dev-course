@@ -1,12 +1,19 @@
 import "./App.css";
+import { useRecoilValue } from "recoil";
+import { cartCount, totalPrice } from "./atoms.ts";
+import CartUpdater from "./Components/CartUpdater.tsx";
 
 function App() {
-  console.log("userId", 1234);
+  const cartValue = useRecoilValue(cartCount);
+  const totalPriceValue = useRecoilValue(totalPrice);
 
   return (
-    <>
-      <p>Hello world</p>
-    </>
+    <div>
+      <p>Cart Value {cartValue} </p>
+      <p>Total Price {totalPriceValue}</p>
+
+      <CartUpdater />
+    </div>
   );
 }
 
