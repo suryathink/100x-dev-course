@@ -2,6 +2,8 @@
 https://www.npmjs.com/package/ws
 */
 
+// start a redis on docker and connect it with this project
+
 // const subscriptions: {
 //   [key: string]: {
 //     ws: WebSocket;
